@@ -152,8 +152,9 @@ For callers that cannot answer questions. Every step runs as above, with these c
 - **Summary report (Step 4, item 5):** skip it. As in every mode:agent run, `out:` writes
   the JSON reply instead. Resolve `REPORT_PATH` with the canonical report-path block in
   `${CLAUDE_PLUGIN_ROOT}/references/config-resolution.md`, with `SKILL_SLUG`
-  `from-pr-learnings`, an empty `SCOPE` and `EXT` `json`. Run only the `REPORT_PATH` part
-  and the `mkdir -p` and `case` lines, as item 5 does; this skill has no run scratch.
+  `from-pr-learnings`, an empty `SCOPE`, `EXT` `json` and `OUT_ARG` from `out:`. Run the
+  whole block except the run-scratch lines (`RUN_ID`, `RUN`, and the `mkdir` and
+  `.gitignore` for `$RUN`); this skill has no run scratch.
 - **Step 6:** skip the markdown report and the git status line. Reply with one raw JSON
   object in the config-writer shape from "mode:agent for setup, learnings and
   plan-assist" in `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`, with `context`
