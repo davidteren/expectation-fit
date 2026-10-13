@@ -145,6 +145,13 @@ For callers that cannot answer questions. Every step runs as above, with these c
 - **Invalid config path:** when config resolution reports an invalid `config:`,
   `EXPECTATION_FIT_CONFIG_DIR` or legacy `INTENSE_CONFIG_DIR` path, write nothing. Reply with status `failed` and a
   reason that names the path.
+- **Config outside the repo:** without an explicit `config:`, write only to a config
+  inside the cwd's git root (outside git, the cwd). When the resolved config sits
+  elsewhere, write nothing. Reply with status `skipped`, reason "The config that applies
+  is outside this repo: pass config:<path> to target it.", and a `deferred` line that
+  names its path.
+- **Unreadable source:** a triage path that does not exist or a `gh` call that fails
+  gives status `failed`, with the error in `reason`.
 - **No config found (Step 1.2):** do not create one. Reply with status `skipped` and
   reason "No .expectation-fit/ config found; run fit-setup mode:agent first."
 - **Legacy config:** when the resolved config is a legacy `.intense/`, write nothing.
