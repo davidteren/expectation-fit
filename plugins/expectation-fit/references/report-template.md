@@ -414,8 +414,8 @@ is one raw JSON object and nothing else, the run asks no questions, and `status`
 `reason` follow the same field rules (`complete`, `failed` or `skipped`, with `reason`
 `null` on `complete`). `out:`, where a skill takes it, writes the same object to that
 path, and `artifact_path` names it. Every key in a shape is always present: on a
-`failed` or `skipped` reply the lists are empty and `mode`, `config_dir` and
-`artifact_path` may be `null`. The other rules do not carry over. The two config writers do
+`failed` or `skipped` reply the other lists are empty, `deferred` may name what a human
+should do next, and `mode`, `config_dir` and `artifact_path` may be `null`. The other rules do not carry over. The two config writers do
 change `.expectation-fit/` (that is their job), and these shapes carry no provenance
 keys.
 

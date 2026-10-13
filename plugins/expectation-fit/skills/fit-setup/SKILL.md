@@ -49,6 +49,7 @@ confirm" becomes a `deferred` line instead.
 | Step | Answer in mode:agent |
 |------|----------------------|
 | 0a mode menu | Config found: **upgrade**. None found: **fresh**. `calibrate` and other tokens still apply, but a `fresh`, file, `multi-repo` or `roots:` token never creates a new folder when walk-up already finds a config: run **upgrade** on that config instead, limited to the named files. Roots from a token fill empty `conventions.auto.roots`; roots already set to other values stay, with a `deferred` line. |
+| Invalid config path | When config resolution reports an invalid `config:` or `EXPECTATION_FIT_CONFIG_DIR` path: write nothing. Reply with status `failed` and a reason that names the path. |
 | 0b profile | Monolith, unless a `multi-repo` or `roots:` token says otherwise. |
 | 1 placement, upgrade | Write into the resolved config folder. Never create a second `.expectation-fit/`. An explicit `upgrade` with no config found (U1.2): write nothing, status `skipped`, reason "No config to upgrade: run fit-setup mode:agent fresh." |
 | 1 placement, fresh | With a `multi-repo` or `roots:` token: the shared workspace root. Without one: the cwd's git root (outside git, the cwd). When the signals reach the Step 0b multi-repo threshold (any two) and no token was passed, write nothing. Reply with status `skipped`, reason "Multi-repo layout detected: pass multi-repo or roots:a,b.", and a `deferred` line that names the workspace path. |
