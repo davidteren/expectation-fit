@@ -50,8 +50,8 @@ confirm" becomes a `deferred` line instead.
 |------|----------------------|
 | 0a mode menu | Config found: **upgrade**. None found: **fresh**. `calibrate` and other tokens still apply. |
 | 0b profile | Monolith, unless a `multi-repo` or `roots:` token says otherwise. |
-| 1 placement, upgrade | Write into the resolved config folder. Never create a second `.expectation-fit/`. |
-| 1 placement, fresh | With a `multi-repo` or `roots:` token: the shared workspace root. Without one: the cwd's git root. When multi-repo signals exist and no token was passed, write nothing. Reply with status `skipped`, reason "Multi-repo layout detected: pass multi-repo or roots:a,b.", and a `deferred` line that names the workspace path. |
+| 1 placement, upgrade | Write into the resolved config folder. Never create a second `.expectation-fit/`. An explicit `upgrade` with no config found (U1.2): write nothing, status `skipped`, reason "No config to upgrade: run fit-setup mode:agent fresh." |
+| 1 placement, fresh | With a `multi-repo` or `roots:` token: the shared workspace root. Without one: the cwd's git root (outside git, the cwd). When the signals reach the Step 0b multi-repo threshold (any two) and no token was passed, write nothing. Reply with status `skipped`, reason "Multi-repo layout detected: pass multi-repo or roots:a,b.", and a `deferred` line that names the workspace path. |
 | 1 legacy `.intense/` only | The resolved config is a legacy `.intense/` and no `.expectation-fit/` holds yaml: write nothing, because new `.expectation-fit/` yaml would hide the legacy config. Reply with status `skipped`, reason "Legacy .intense/ config needs an interactive migration: run /fit-setup upgrade.", and a `deferred` line that names the folder. |
 | 1 both folders hold yaml | Run the upgrade on `.expectation-fit/` (it is the resolved config). Add a `deferred` line for the legacy merge and removal. |
 | 2 file menu | All files (the documented non-interactive default). |

@@ -149,9 +149,9 @@ For callers that cannot answer questions. Every step runs as above, with these c
   Do not write `patterns.blocked`: each proposed ban becomes a `deferred` line.
 - **Step 5 and Gaps:** the calibrate recommendation and each Gaps item (a learning that
   needs a product or security call) become one `deferred` line each.
-- **Summary report (Step 4.5):** skip it. As in every mode:agent run, `out:` writes the
-  JSON reply instead: to `<out>/<stamp>-from-pr-learnings.json` for a folder, else to the
-  file path.
+- **Summary report (Step 4, item 5):** skip it. As in every mode:agent run, `out:` writes
+  the JSON reply instead. Resolve the path with the canonical report-path block in
+  `${CLAUDE_PLUGIN_ROOT}/references/config-resolution.md`, with `EXT` `json`.
 - **Step 6:** skip the markdown report and the git status line. Reply with one raw JSON
   object in the config-writer shape from "mode:agent for setup, learnings and
   plan-assist" in `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`, with `context`
