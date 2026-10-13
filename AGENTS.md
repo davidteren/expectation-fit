@@ -139,12 +139,14 @@ toggles; Coverage marks the others `not_selected`), and `prior:<report-path>` (a
 earlier report of the same target; which rows reach every lens through the `<prior>`
 slot is defined once in `references/config-resolution.md` → Shared tokens: fixed and
 declined rows for fit-review and fit-audit, all rows for fit-validate-plan; it never
-changes the diff range). `fit-setup`, `fit-from-pr-learnings` and `fit-plan-assist` also
-take `mode:agent`, with the smaller shapes in `references/report-template.md`. Path resolution:
+changes the diff range). Path resolution:
 `references/config-resolution.md` → Artifact paths. Defaults: run
 `.expectation-fit/runs/<run-id>/`, report `.expectation-fit/reports/<stamp>-<skill>[-scope].md`.
 Run-id format is identical across the three: `$(date +%Y%m%d-%H%M%S)-<4-byte hex>` —
 keep them in sync if you change one.
+
+`fit-setup`, `fit-from-pr-learnings` and `fit-plan-assist` also take `mode:agent`, with
+the smaller JSON shapes in `references/report-template.md`.
 
 ---
 

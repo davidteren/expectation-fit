@@ -139,7 +139,7 @@ This skill still never commits. Outside a git repo, skip the status line.
 
 For callers that cannot answer questions. Every step runs as above, with these changes:
 
-- **No config found (Step 1.2):** do not create one. Reply with status `failed` and
+- **No config found (Step 1.2):** do not create one. Reply with status `skipped` and
   reason "No .expectation-fit/ config found; run fit-setup mode:agent first."
 - **Legacy config:** when the resolved config is a legacy `.intense/`, write nothing.
   Reply with status `skipped` and reason "Legacy .intense/ config needs an interactive
@@ -150,8 +150,10 @@ For callers that cannot answer questions. Every step runs as above, with these c
 - **Step 5 and Gaps:** the calibrate recommendation and each Gaps item (a learning that
   needs a product or security call) become one `deferred` line each.
 - **Summary report (Step 4, item 5):** skip it. As in every mode:agent run, `out:` writes
-  the JSON reply instead. Resolve the path with the canonical report-path block in
-  `${CLAUDE_PLUGIN_ROOT}/references/config-resolution.md`, with `EXT` `json`.
+  the JSON reply instead. Resolve `REPORT_PATH` with the canonical report-path block in
+  `${CLAUDE_PLUGIN_ROOT}/references/config-resolution.md`, with `SKILL_SLUG`
+  `from-pr-learnings`, an empty `SCOPE` and `EXT` `json`. Run only the `REPORT_PATH` part
+  and the `mkdir -p` and `case` lines, as item 5 does; this skill has no run scratch.
 - **Step 6:** skip the markdown report and the git status line. Reply with one raw JSON
   object in the config-writer shape from "mode:agent for setup, learnings and
   plan-assist" in `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`, with `context`

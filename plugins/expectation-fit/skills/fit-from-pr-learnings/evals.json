@@ -24,7 +24,7 @@
     {
       "id": 5,
       "prompt": "fit-from-pr-learnings mode:agent pr:42 (no .expectation-fit/ config anywhere)",
-      "expected_output": "Asks nothing and never creates a config folder. Replies with one raw JSON object: status failed, reason says to run fit-setup mode:agent first."
+      "expected_output": "Asks nothing and never creates a config folder. Replies with one raw JSON object: status skipped, reason says to run fit-setup mode:agent first."
     },
     {
       "id": 6,
