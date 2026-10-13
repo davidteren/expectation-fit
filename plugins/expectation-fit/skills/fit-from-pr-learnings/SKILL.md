@@ -139,8 +139,10 @@ This skill still never commits. Outside a git repo, skip the status line.
 
 For callers that cannot answer questions. Every step runs as above, with these changes:
 
-- **Invalid config path:** when config resolution reports an invalid `config:` or
-  `EXPECTATION_FIT_CONFIG_DIR` path, write nothing. Reply with status `failed` and a
+- **No learnings input:** with no triage path, no `pr:` and no multi-repo cwd, reply with
+  status `failed` and reason "No learnings source: pass a triage .md path or pr:<n>."
+- **Invalid config path:** when config resolution reports an invalid `config:`,
+  `EXPECTATION_FIT_CONFIG_DIR` or legacy `INTENSE_CONFIG_DIR` path, write nothing. Reply with status `failed` and a
   reason that names the path.
 - **No config found (Step 1.2):** do not create one. Reply with status `skipped` and
   reason "No .expectation-fit/ config found; run fit-setup mode:agent first."
