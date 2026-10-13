@@ -759,7 +759,7 @@ end
 
 # The smaller mode:agent shapes (issue expectation-fit#1): examples parse, and the three
 # skills that use them document the token.
-small_section = report_tpl[/## mode:agent for setup, learnings and plan-assist(.*)/m, 1].to_s
+small_section = report_tpl[/## mode:agent for setup, learnings and plan-assist(.*?)(?=^## |\z)/m, 1].to_s
 small_examples = small_section.scan(/```json\n(.*?)```/m).flatten
 if small_examples.size == 2
   small_examples.each_with_index do |src, i|
@@ -784,8 +784,7 @@ end
 # Both config writers share one write-target rule, defined once in the template.
 if small_section.include?("**Write target (both config writers).**")
   %w[fit-setup fit-from-pr-learnings].each do |skill|
-    if read("skills/#{skill}/SKILL.md").gsub(/\s+/, " ").include?('Follow "Write target"') ||
-       read("skills/#{skill}/SKILL.md").gsub(/\s+/, " ").include?('follow "Write target"')
+    if read("skills/#{skill}/SKILL.md").gsub(/\s+/, " ").downcase.include?('follow "write target"')
       ok "#{skill}: mode:agent uses the shared Write target rule"
     else
       bad "#{skill}: mode:agent must follow the shared \"Write target\" rule in report-template.md"
