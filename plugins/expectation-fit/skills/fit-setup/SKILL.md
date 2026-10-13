@@ -48,7 +48,7 @@ confirm" becomes a `deferred` line instead.
 
 | Step | Answer in mode:agent |
 |------|----------------------|
-| 0a mode menu | Config found: **upgrade**. None found: **fresh**. `calibrate` and other tokens still apply, but a `fresh` or file token never creates a new folder when walk-up already finds a config: run **upgrade** on that config instead, limited to the named files. |
+| 0a mode menu | Config found: **upgrade**. None found: **fresh**. `calibrate` and other tokens still apply, but a `fresh`, file, `multi-repo` or `roots:` token never creates a new folder when walk-up already finds a config: run **upgrade** on that config instead, limited to the named files. Roots from a token fill empty `conventions.auto.roots`; roots already set to other values stay, with a `deferred` line. |
 | 0b profile | Monolith, unless a `multi-repo` or `roots:` token says otherwise. |
 | 1 placement, upgrade | Write into the resolved config folder. Never create a second `.expectation-fit/`. An explicit `upgrade` with no config found (U1.2): write nothing, status `skipped`, reason "No config to upgrade: run fit-setup mode:agent fresh." |
 | 1 placement, fresh | With a `multi-repo` or `roots:` token: the shared workspace root. Without one: the cwd's git root (outside git, the cwd). When the signals reach the Step 0b multi-repo threshold (any two) and no token was passed, write nothing. Reply with status `skipped`, reason "Multi-repo layout detected: pass multi-repo or roots:a,b.", and a `deferred` line that names the workspace path. |
@@ -59,7 +59,7 @@ confirm" becomes a `deferred` line instead.
 | 2c calibrate | Measure and propose, but write nothing. Put each proposed value in `deferred`. No stack with an Arch pack: status `skipped`, reason "No stack with an architecture pack to calibrate." |
 | 3 existing file | Skip it and list it in `files_skipped`. |
 | U3 picks | The stated default: add the safe missing blocks and missing files. |
-| U4 confirms | Additions only, as above. Carrying a legacy `report_dir` over, offering new defaults for old values and replacing a copied title each become a `deferred` line. |
+| U4 confirms | Additions only, as above. When a legacy top-level `report_dir` is set, do not add `artifacts.report_dir`, because it would move where reports go. Carrying a legacy `report_dir` over, offering new defaults for old values and replacing a copied title each become a `deferred` line. |
 | 4 gitignore | Do not edit `.gitignore`. When the active run-scratch path is not ignored, add a `deferred` line that names it. |
 | 5 report | Reply with one raw JSON object in the config-writer shape from "mode:agent for setup, learnings and plan-assist" in `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`, with `context` `setup`. Print no markdown and no git status. |
 

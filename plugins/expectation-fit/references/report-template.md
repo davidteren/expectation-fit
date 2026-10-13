@@ -428,7 +428,7 @@ keys.
   "artifact_path": null,
   "config_dir": "/abs/path/.expectation-fit",
   "files_written": ["/abs/path/.expectation-fit/ways-of-working.yaml"],
-  "files_skipped": [{ "path": "/abs/path/.expectation-fit/thresholds.yaml", "why": "exists; mode:agent never overwrites" }],
+  "files_skipped": [],
   "deferred": ["patterns.preferred: interactor or service_object needs a human choice"]
 }
 ```
@@ -439,7 +439,7 @@ keys.
   `out:`, so it is always `null` there.
 - `config_dir` is the absolute `.expectation-fit/` path, or `null` when none exists.
 - `files_written` lists every file the run created or changed. `files_skipped` lists
-  every file the run would have changed but did not, with the reason.
+  every file the run would have changed but did not, as `{ "path", "why" }`.
 - `deferred` lists each decision the interactive run would have asked about, in one
   line, so a human can make it later. Empty when none.
 

@@ -78,7 +78,8 @@ Keep it tight: the value is a focused list of the right questions, not an essay.
 
 ## mode:agent
 
-With the `mode:agent` token, reply with one raw JSON object and nothing else, in the
+With the `mode:agent` token, remove it from the argument before step 1, and reply with
+one raw JSON object and nothing else, in the
 plan-assist shape from "mode:agent for setup, learnings and plan-assist" in
 `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`. Each checklist item becomes one
 `{lens, item}` entry, and each tension one line in `tensions`. Skip step 5 (no offer, no
