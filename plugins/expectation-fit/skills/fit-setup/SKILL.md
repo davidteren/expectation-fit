@@ -38,18 +38,24 @@ For callers that cannot answer questions. The procedure runs as written, but eve
 question takes the answer below. Anything a run would have asked a human to decide goes
 into `deferred` as one line.
 
+A mode:agent run **adds**: it creates missing files and missing keys from the
+defaults. It never replaces or removes a value that is already set. The diff preview
+and the "confirm once" gates (Step 3, U4) count as yes for those additions only. Every
+change that U4 marks "only on confirm", "without a yes" or "explicit overwrite
+confirm" becomes a `deferred` line instead.
+
 | Step | Answer in mode:agent |
 |------|----------------------|
 | 0a mode menu | Config found: **upgrade**. None found: **fresh**. `calibrate` and other tokens still apply. |
 | 0b profile | The detected default, with no confirm. |
-| 1 placement | Multi-repo: one shared workspace `.expectation-fit/`. |
-| 1 legacy `.intense/` | Move and remove nothing. Add a `deferred` line that names the folder. |
+| 1 placement | Write at the cwd's git root. Use the shared workspace root only with a `multi-repo` or `roots:` token. Without the token, when multi-repo signals exist, add a `deferred` line that names the workspace path. |
+| 1 legacy `.intense/` | When the resolved config is a legacy `.intense/`, or one with yaml sits at the write root: write nothing. Reply with status `skipped`, reason "Legacy .intense/ config needs an interactive migration: run /fit-setup upgrade.", and a `deferred` line that names the folder. Any new `.expectation-fit/` yaml would hide the legacy config. |
 | 2 file menu | All files (the documented non-interactive default). |
 | 2b questions | The table defaults. Rows marked **ask** stay unset, with a `deferred` line. Do not offer calibrate. |
-| 2c calibrate | Measure and propose, but write nothing. Put each proposed value in `deferred`. |
+| 2c calibrate | Measure and propose, but write nothing. Put each proposed value in `deferred`. No stack with an Arch pack: status `skipped`, reason "No stack with an architecture pack to calibrate." |
 | 3 existing file | Skip it and list it in `files_skipped`. |
 | U3 picks | The stated default: add the safe missing blocks and missing files. |
-| U4 confirms | Do only what needs no yes. Each change that needs a yes becomes a `deferred` line. |
+| U4 confirms | Additions only, as above. Carrying a legacy `report_dir` over, offering new defaults for old values and replacing a copied title each become a `deferred` line. |
 | 4 gitignore | Skip. |
 | 5 report | Reply with one raw JSON object in the config-writer shape from "mode:agent for setup, learnings and plan-assist" in `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`, with `context` `setup`. Print no markdown and no git status. |
 

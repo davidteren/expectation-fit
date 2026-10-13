@@ -143,11 +143,15 @@ For callers that cannot answer questions. Every step runs as above, with these c
   reason "No .expectation-fit/ config found; run fit-setup mode:agent first."
 - **Step 4:** use **merge**. Never replace notes. When a `severity_overrides` key is
   already set to a different value, keep the existing value and add one `deferred` line.
+  Do not write `patterns.blocked`: each proposed ban becomes a `deferred` line.
+- **Step 5 and Gaps:** the calibrate recommendation and each Gaps item (a learning that
+  needs a product or security call) become one `deferred` line each.
 - **Summary report:** write it only with `out:`.
 - **Step 6:** skip the markdown report and the git status line. Reply with one raw JSON
   object in the config-writer shape from "mode:agent for setup, learnings and
   plan-assist" in `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`, with `context`
-  `learnings` and `mode` `null`.
+  `learnings`, `mode` `null`, and `artifact_path` set to the summary report path (or
+  `null`).
 
 ## Quality bar
 

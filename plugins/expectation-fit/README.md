@@ -131,7 +131,8 @@ example `docs/expectation-fit`). Warning: a `docs/` folder is often a public sit
 reports name unfixed defects. Pass `mode:agent` for a single JSON reply for programmatic
 callers; it writes a file only when you pass `out:`. Every `fit-*` skill takes `mode:agent`:
 `fit-setup` and `fit-from-pr-learnings` then ask no questions and use the documented
-defaults, and `fit-plan-assist` returns its checklist as JSON.
+defaults. They still write config under `.expectation-fit/`, but they only add files and
+keys and never replace a value. `fit-plan-assist` returns its checklist as JSON.
 
 One run is a sample. A second run can find defects the first run missed, so "No findings
 surfaced in this pass" is not proof of none. A lens takes seconds to two minutes on a

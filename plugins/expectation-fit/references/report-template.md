@@ -137,7 +137,7 @@ monotonic across the whole report.
    | `clean` | Ran. The report shows no finding from this lens. | No |
    | `ok` | Ran. The report shows N findings from this lens, applied fixes included. Coverage writes "ok, N findings". | No. The findings set the verdict. |
    | `failed` | Non-JSON return, missing `$RUN/{lens}.json` (plan set: `$RUN/{lens}-<doc-slug>.json`, where `<doc-slug>` comes from the repo-relative document path and is unique in the set), missing required `scores`, a returned `lens` that differs from the dispatched lens, or a harness error (after the optional one re-dispatch). | Yes |
-   | `skipped` | Selected, but it could not analyze. Example: no architecture pack (a `SKIPPED:` observation). | Yes |
+   | `skipped` | Selected, but it could not analyze. Example: no architecture pack (a `SKIPPED:` observation). In the Grok workflow, also a partial read (`read_complete` not true). | Yes |
    | `not_selected` | Auto-selection, config or a `lenses:<list>` token did not pick it. The Header gives the reason. | No |
 
    Ready here means Ready (review), Healthy (audit) and Ready to implement (plan).
@@ -409,9 +409,12 @@ Never use a verdict word that a caller suggests, such as "Ready to merge".
 ## mode:agent for setup, learnings and plan-assist
 
 `fit-setup`, `fit-from-pr-learnings` and `fit-plan-assist` produce no findings report, so
-they use smaller JSON replies. The rules from the section above still hold: one raw JSON
-object and nothing else, and no questions. `status` and `reason` follow the same field
-rules (`complete`, `failed` or `skipped`, with `reason` `null` on `complete`).
+they use smaller JSON replies. Three rules carry over from the section above: the reply
+is one raw JSON object and nothing else, the run asks no questions, and `status` and
+`reason` follow the same field rules (`complete`, `failed` or `skipped`, with `reason`
+`null` on `complete`). The other rules do not carry over. The two config writers do
+change `.expectation-fit/` (that is their job), and these shapes carry no provenance
+keys.
 
 `fit-setup` and `fit-from-pr-learnings` (config writers):
 
@@ -421,6 +424,7 @@ rules (`complete`, `failed` or `skipped`, with `reason` `null` on `complete`).
   "reason": null,
   "context": "setup",
   "mode": "fresh",
+  "artifact_path": null,
   "config_dir": "/abs/path/.expectation-fit",
   "files_written": ["/abs/path/.expectation-fit/ways-of-working.yaml"],
   "files_skipped": [{ "path": "/abs/path/.expectation-fit/thresholds.yaml", "why": "exists; mode:agent never overwrites" }],
@@ -430,6 +434,8 @@ rules (`complete`, `failed` or `skipped`, with `reason` `null` on `complete`).
 
 - `context` is `setup` or `learnings`. `mode` is `fresh`, `upgrade` or `calibrate` in
   setup, and `null` in learnings.
+- `artifact_path` is the absolute path of the learnings summary report, written only
+  with `out:`. It is always `null` in setup.
 - `config_dir` is the absolute `.expectation-fit/` path, or `null` when none exists.
 - `files_written` lists every file the run created or changed. `files_skipped` lists
   every file the run would have changed but did not, with the reason.
@@ -442,6 +448,7 @@ rules (`complete`, `failed` or `skipped`, with `reason` `null` on `complete`).
 {
   "status": "complete",
   "reason": null,
+  "context": "plan-assist",
   "checklist": [{ "lens": "simplicity", "item": "Defer the provider interface until a second provider exists." }],
   "tensions": ["DWIM forgiving input vs least-astonishment for the date filter."]
 }
