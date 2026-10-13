@@ -4,11 +4,11 @@
 > See
 > [Upgrading from intent-engineering](plugins/expectation-fit/README.md#upgrading-from-intent-engineering).
 
-[![contracts](https://github.com/davidteren/intent-engineering/actions/workflows/contracts.yml/badge.svg)](https://github.com/davidteren/intent-engineering/actions/workflows/contracts.yml)
+[![contracts](https://github.com/davidteren/expectation-fit/actions/workflows/contracts.yml/badge.svg)](https://github.com/davidteren/expectation-fit/actions/workflows/contracts.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Listed on ClaudePluginHub](https://www.claudepluginhub.com/badge/davidteren-intent-engineering-plugins-intent-engineering)](https://www.claudepluginhub.com/plugins/davidteren-intent-engineering-plugins-intent-engineering?ref=badge)
+[![Listed on ClaudePluginHub](https://www.claudepluginhub.com/badge/davidteren-expectation-fit-plugins-expectation-fit)](https://www.claudepluginhub.com/plugins/davidteren-expectation-fit-plugins-expectation-fit?ref=badge)
 
-**Site:** [davidteren.github.io/intent-engineering](https://davidteren.github.io/intent-engineering/)
+**Site:** [davidteren.github.io/expectation-fit](https://davidteren.github.io/expectation-fit/)
 
 A Claude Code plugin that enforces **expectation fit**: software — and the experience
 around it — that behaves the way a reasonable developer or user already expects. It guards
@@ -198,7 +198,7 @@ surprise, convention, simplicity and missing UX states. Neither replaces the oth
 ## Install
 
 ```
-/plugin marketplace add https://github.com/davidteren/intent-engineering
+/plugin marketplace add https://github.com/davidteren/expectation-fit
 /plugin install expectation-fit
 ```
 
