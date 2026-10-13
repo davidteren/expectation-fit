@@ -1,0 +1,32 @@
+plugins/expectation-fit/skills/fit-setup/evals.json
+  s_139c48e2134bb7::t_7b6b58df11dc47 43-57
+plugins/expectation-fit/skills/fit-plan-assist/evals.json
+  s_139c48e2134bb7::t_7b6b58df11dc47 13-22
+plugins/expectation-fit/skills/fit-setup/SKILL.md
+  s_139c48e2134bb7::t_8fa60577f26c6c 37-40,52-56
+plugins/expectation-fit/references/report-template.md
+  s_139c48e2134bb7::t_8fa60577f26c6c 415-416,438-439
+plugins/expectation-fit/skills/fit-from-pr-learnings/SKILL.md
+  s_139c48e2134bb7::t_8fa60577f26c6c 144-146,152,158
+  s_139c48e2134bb7::t_7b6b58df11dc47 153-154
+plugins/expectation-fit/skills/fit-from-pr-learnings/evals.json
+  s_139c48e2134bb7::t_7b6b58df11dc47 23-32
+CHANGELOG.md
+  s_139c48e2134bb7::t_3f0d6d0f1ee496 20-22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f8d716ab977a18cef5705259ad93a23dc0cc3469",
+  "prompts": {},
+  "sessions": {
+    "s_139c48e2134bb7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "089293b8-bf7f-4fca-9b58-2370b9ff2a96",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "davidteren <drteren@gmail.com>"
+    }
+  }
+}
