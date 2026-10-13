@@ -42,8 +42,9 @@ let config_schema = #{
 
 let lens_schema = #{
     "type": "object",
-    "required": ["lens", "findings", "observations"],
+    "required": ["lens", "read_complete", "findings", "observations"],
     "properties": #{
+        "read_complete": #{ "type": "boolean" },
         "lens": #{
             "type": "string",
             "enum": ["predictability", "convention", "simplicity", "experience", "architecture"],
@@ -298,6 +299,7 @@ fn lens_prompt(target, plugin_root, lens_id, agent_file, docs, hunts, intent_tex
     p += "If you cannot read the target, start an observation with failed: and return no findings.\n";
     p += "An empty findings list is valid only after you have inspected the target.\n";
     p += "Your first observation is READ: <what you read> of <what you were given>. Page a long diff to its last line, tests included. Name any part you did not read.\n";
+    p += "Set read_complete to true only when you read everything you were given. A partial read sets it false, and the lens is reported as skipped.\n";
     p += "At most 8 findings. Name the broken expectation. Concrete suggested_fix.\n";
     p += "Skip formatter/linter nits. Flag principle tensions instead of picking a side.\n";
     p += "</output-contract>\n";
@@ -564,6 +566,11 @@ for lens in catalog {
                         if ol.len() >= 7 && ol.sub_string(0, 7) == "failed:" { lens_status = "failed"; }
                     }
                 }
+            }
+            // A partial read blocks Ready, the same as in the Claude skills.
+            if lens_status == "clean" && r.output.read_complete != true {
+                lens_status = "skipped";
+                observations.push("Lens " + lens.id + " did not read the whole target (read_complete is not true).");
             }
             statuses.push(#{ lens: lens.id, status: lens_status });
             write_scratch_file(run_slug + "-" + lens.id + ".json", json_encode(r.output));

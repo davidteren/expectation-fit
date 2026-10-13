@@ -1,7 +1,7 @@
 ---
 name: fit-plan-assist
 description: "Inject expectation-fit principles into the planning phase — surface the least-astonishment, convention, simplicity, and UX considerations relevant to the work being planned, as a tailored advisory checklist. Lightweight and non-blocking; use while drafting a plan or thinking through an approach, before a full plan doc exists. For validating a finished plan, use fit-validate-plan instead."
-argument-hint: "[a short description of what's being planned, or blank to use the current conversation/plan context]"
+argument-hint: "[mode:agent] [a short description of what's being planned, or blank to use the current conversation/plan context]"
 ---
 
 # Expectation Fit — Planning Assist
@@ -75,6 +75,15 @@ item is specific to the subject and phrased as a decision to make now. Advisory 
 nothing blocks, nothing is written to disk unless the user asks to save it.
 
 Keep it tight: the value is a focused list of the right questions, not an essay.
+
+## mode:agent
+
+With the `mode:agent` token, reply with one raw JSON object and nothing else, in the
+plan-assist shape from "mode:agent for setup, learnings and plan-assist" in
+`${CLAUDE_PLUGIN_ROOT}/references/report-template.md`. Each checklist item becomes one
+`{lens, item}` entry, and each tension one line in `tensions`. Skip step 5 (no offer, no
+sub-agent). With no subject in the argument or the context, reply with status `failed`
+and reason "No subject to plan: pass a short description."
 
 ---
 

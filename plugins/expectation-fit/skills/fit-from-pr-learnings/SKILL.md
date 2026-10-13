@@ -1,7 +1,7 @@
 ---
 name: fit-from-pr-learnings
 description: "Turn PR review comments, a triage markdown export, or open PR URLs into Expectation Fit config improvements — conventions.notes/sources, severity_overrides, optional pattern policy, and a short findings brief. Use when the user points at a PR, a PR stack triage doc, or wants to mine review learnings into .expectation-fit/."
-argument-hint: "[path/to/triage.md | pr:<url-or-number> | stack] [out:<dir>]"
+argument-hint: "[mode:agent] [path/to/triage.md | pr:<url-or-number> | stack] [out:<dir>]"
 ---
 
 # Expectation Fit — From PR learnings
@@ -31,6 +31,7 @@ YAML without confirmation.
 | `stack` / blank with multi-repo cwd | Prefer nearest `.expectation-fit/` walk-up; detect BE/FE siblings. |
 | `config:<path>` | Override project config dir (same rules as config-resolution). |
 | `out:<dir>` | Write the summary report under this dir (default: resolved `artifacts.report_dir`). |
+| `mode:agent` | Ask nothing; reply with JSON. See "mode:agent" below. |
 
 ## Procedure
 
@@ -133,6 +134,20 @@ Write a short markdown report:
 After a write, end with the output of `git -C "<resolved .expectation-fit dir>" status -sb .`
 and this line: "Commit these config files in their own commit, not inside feature work."
 This skill still never commits. Outside a git repo, skip the status line.
+
+## mode:agent
+
+For callers that cannot answer questions. Every step runs as above, with these changes:
+
+- **No config found (Step 1.2):** do not create one. Reply with status `failed` and
+  reason "No .expectation-fit/ config found; run fit-setup mode:agent first."
+- **Step 4:** use **merge**. Never replace notes. When a `severity_overrides` key is
+  already set to a different value, keep the existing value and add one `deferred` line.
+- **Summary report:** write it only with `out:`.
+- **Step 6:** skip the markdown report and the git status line. Reply with one raw JSON
+  object in the config-writer shape from "mode:agent for setup, learnings and
+  plan-assist" in `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`, with `context`
+  `learnings` and `mode` `null`.
 
 ## Quality bar
 

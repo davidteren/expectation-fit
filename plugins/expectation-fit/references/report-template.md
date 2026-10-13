@@ -405,3 +405,48 @@ Verdict words, by context. Use only these words:
 | audit | `Healthy`, `Gaps to fix first` |
 
 Never use a verdict word that a caller suggests, such as "Ready to merge".
+
+## mode:agent for setup, learnings and plan-assist
+
+`fit-setup`, `fit-from-pr-learnings` and `fit-plan-assist` produce no findings report, so
+they use smaller JSON replies. The rules from the section above still hold: one raw JSON
+object and nothing else, and no questions. `status` and `reason` follow the same field
+rules (`complete`, `failed` or `skipped`, with `reason` `null` on `complete`).
+
+`fit-setup` and `fit-from-pr-learnings` (config writers):
+
+```json
+{
+  "status": "complete",
+  "reason": null,
+  "context": "setup",
+  "mode": "fresh",
+  "config_dir": "/abs/path/.expectation-fit",
+  "files_written": ["/abs/path/.expectation-fit/ways-of-working.yaml"],
+  "files_skipped": [{ "path": "/abs/path/.expectation-fit/thresholds.yaml", "why": "exists; mode:agent never overwrites" }],
+  "deferred": ["patterns.preferred: interactor or service_object needs a human choice"]
+}
+```
+
+- `context` is `setup` or `learnings`. `mode` is `fresh`, `upgrade` or `calibrate` in
+  setup, and `null` in learnings.
+- `config_dir` is the absolute `.expectation-fit/` path, or `null` when none exists.
+- `files_written` lists every file the run created or changed. `files_skipped` lists
+  every file the run would have changed but did not, with the reason.
+- `deferred` lists each decision the interactive run would have asked about, in one
+  line, so a human can make it later. Empty when none.
+
+`fit-plan-assist`:
+
+```json
+{
+  "status": "complete",
+  "reason": null,
+  "checklist": [{ "lens": "simplicity", "item": "Defer the provider interface until a second provider exists." }],
+  "tensions": ["DWIM forgiving input vs least-astonishment for the date filter."]
+}
+```
+
+- `lens` is one of the catalog lenses. `item` is one decision to make now, as in the
+  markdown checklist.
+- `tensions` holds one line per trade-off. Empty when none.

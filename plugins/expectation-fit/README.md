@@ -129,7 +129,9 @@ reach a remote by accident. After the report step, run scratch is deleted
 reports, set `artifacts.report_dir` in `.expectation-fit/ways-of-working.yaml` (for
 example `docs/expectation-fit`). Warning: a `docs/` folder is often a public site, and
 reports name unfixed defects. Pass `mode:agent` for a single JSON reply for programmatic
-callers; it writes a file only when you pass `out:`.
+callers; it writes a file only when you pass `out:`. Every `fit-*` skill takes `mode:agent`:
+`fit-setup` and `fit-from-pr-learnings` then ask no questions and use the documented
+defaults, and `fit-plan-assist` returns its checklist as JSON.
 
 One run is a sample. A second run can find defects the first run missed, so "No findings
 surfaced in this pass" is not proof of none. A lens takes seconds to two minutes on a

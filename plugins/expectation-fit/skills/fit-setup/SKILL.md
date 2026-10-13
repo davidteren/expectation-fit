@@ -1,7 +1,7 @@
 ---
 name: fit-setup
 description: "Setup and upgrade Expectation Fit project config in .expectation-fit/ — full wizard for greenfield monoliths and multi-repo workspaces (placement, conventions.auto roots, severity_align, pattern preference), plus upgrade that merges missing capabilities without clobbering notes. Optional calibrate measures repo distributions and proposes thresholds. Stack-aware; idempotent. Use to set up, extend, or upgrade a project's .expectation-fit/ config."
-argument-hint: "[all | ways | patterns | thresholds | fresh | upgrade | multi-repo | roots:a,b | calibrate [p90|p75|…]] (blank = wizard)"
+argument-hint: "[mode:agent] [all | ways | patterns | thresholds | fresh | upgrade | multi-repo | roots:a,b | calibrate [p90|p75|…]] (blank = wizard)"
 ---
 
 # Expectation Fit — Init / setup / upgrade
@@ -30,6 +30,28 @@ If presenting menus interactively in Claude Code, **pre-load `AskUserQuestion`**
 (deferred tool): call `ToolSearch` with `select:AskUserQuestion` once before the first
 menu. If the harness has no blocking-question tool (ToolSearch returns nothing / call
 fails), fall back to a numbered list and wait for the user's reply — never silently pick.
+In `mode:agent`, ask nothing and load no question tool: see "mode:agent" below.
+
+## mode:agent
+
+For callers that cannot answer questions. The procedure runs as written, but every
+question takes the answer below. Anything a run would have asked a human to decide goes
+into `deferred` as one line.
+
+| Step | Answer in mode:agent |
+|------|----------------------|
+| 0a mode menu | Config found: **upgrade**. None found: **fresh**. `calibrate` and other tokens still apply. |
+| 0b profile | The detected default, with no confirm. |
+| 1 placement | Multi-repo: one shared workspace `.expectation-fit/`. |
+| 1 legacy `.intense/` | Move and remove nothing. Add a `deferred` line that names the folder. |
+| 2 file menu | All files (the documented non-interactive default). |
+| 2b questions | The table defaults. Rows marked **ask** stay unset, with a `deferred` line. Do not offer calibrate. |
+| 2c calibrate | Measure and propose, but write nothing. Put each proposed value in `deferred`. |
+| 3 existing file | Skip it and list it in `files_skipped`. |
+| U3 picks | The stated default: add the safe missing blocks and missing files. |
+| U4 confirms | Do only what needs no yes. Each change that needs a yes becomes a `deferred` line. |
+| 4 gitignore | Skip. |
+| 5 report | Reply with one raw JSON object in the config-writer shape from "mode:agent for setup, learnings and plan-assist" in `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`, with `context` `setup`. Print no markdown and no git status. |
 
 ---
 
@@ -521,6 +543,7 @@ never commits or pushes.
 | `/fit-setup calibrate p75` | Calibrate at p75 |
 | `/fit-setup multi-repo` | Fresh with multi-repo profile default |
 | `/fit-setup roots:backend,frontend` | Seed `conventions.auto.roots` (with or without multi-repo) |
+| `/fit-setup mode:agent` | No questions; documented defaults; JSON reply (combines with the tokens above) |
 
 ---
 

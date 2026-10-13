@@ -747,8 +747,39 @@ if File.file?(grok_path)
   else
     bad "fit-review.rhai: verdict code must map a confirmed P0 or P1 to Not ready"
   end
+  # A partial read blocks Ready in Grok too (issue expectation-fit#1).
+  if grok_src =~ /"required":\s*\[[^\]]*"read_complete"/ && grok_src.include?("r.output.read_complete != true")
+    ok "fit-review.rhai: lens schema requires read_complete and a partial read sets skipped"
+  else
+    bad "fit-review.rhai: lens schema must require read_complete, and read_complete != true must set skipped"
+  end
 else
   bad "fit-review.rhai not found"
+end
+
+# The smaller mode:agent shapes (issue expectation-fit#1): examples parse, and the three
+# skills that use them document the token.
+small_section = report_tpl[/## mode:agent for setup, learnings and plan-assist(.*)/m, 1].to_s
+small_examples = small_section.scan(/```json\n(.*?)```/m).flatten
+if small_examples.size == 2
+  small_examples.each_with_index do |src, i|
+    begin
+      JSON.parse(src)
+      ok "report-template.md: small mode:agent example #{i + 1} parses"
+    rescue JSON::ParserError => e
+      bad "report-template.md: small mode:agent example #{i + 1} is not valid JSON (#{e.message})"
+    end
+  end
+else
+  bad "report-template.md: \"mode:agent for setup, learnings and plan-assist\" needs its 2 json examples"
+end
+%w[fit-setup fit-from-pr-learnings fit-plan-assist].each do |skill|
+  src = read("skills/#{skill}/SKILL.md").gsub(/\s+/, " ")
+  if src.include?("## mode:agent ") && src.include?("mode:agent for setup, learnings and plan-assist")
+    ok "#{skill}: documents mode:agent and points at its JSON shape"
+  else
+    bad "#{skill}: needs a \"## mode:agent\" section that points at the report-template shape"
+  end
 end
 
 # ---------------------------------------------------------------------------
