@@ -55,6 +55,16 @@
       "id": 11,
       "prompt": "fit-setup mode:agent calibrate (no stack with an architecture pack)",
       "expected_output": "Calibrate mode despite the leading mode:agent token. Asks nothing and writes nothing. Replies with status skipped and the reason that no stack has an architecture pack."
+    },
+    {
+      "id": 12,
+      "prompt": "fit-setup mode:agent fresh (new repo inside a folder whose parent already holds .expectation-fit/, no token)",
+      "expected_output": "Never writes the parent config and never creates a child config. Replies with status skipped, the reason that the config is outside this repo, and a deferred line naming the parent config path."
+    },
+    {
+      "id": 13,
+      "prompt": "fit-setup mode:agent multi-repo (run from a sub-repo; the workspace root already holds the shared .expectation-fit/)",
+      "expected_output": "Upgrades the shared workspace config (additions only); fills conventions.auto.roots only when empty. Never creates a config in the sub-repo. Replies with status complete, mode upgrade."
     }
   ]
 }

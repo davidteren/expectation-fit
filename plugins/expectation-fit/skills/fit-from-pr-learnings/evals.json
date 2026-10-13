@@ -30,6 +30,11 @@
       "id": 6,
       "prompt": "fit-from-pr-learnings mode:agent docs/triage.md (config exists; triage has a P1 guardrail, a pattern ban and a product question)",
       "expected_output": "Asks nothing. Merges the guardrail as a conventions.notes line; never replaces notes or an existing severity_overrides value. Does not write patterns.blocked: the ban and the product question become deferred lines. Replies with the config-writer JSON, context learnings, mode null."
+    },
+    {
+      "id": 7,
+      "prompt": "fit-from-pr-learnings mode:agent stack (config exists, no triage path and no pr:)",
+      "expected_output": "Asks nothing and writes nothing. Replies with status failed and the reason asking for a triage .md path or pr:<n>."
     }
   ]
 }

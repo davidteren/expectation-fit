@@ -139,7 +139,8 @@ This skill still never commits. Outside a git repo, skip the status line.
 
 For callers that cannot answer questions. Every step runs as above, with these changes:
 
-- **No learnings input:** with no triage path, no `pr:` and no multi-repo cwd, reply with
+- **No learnings input:** with no triage path and no `pr:` (a `stack` token or multi-repo
+  cwd only picks the config folder), reply with
   status `failed` and reason "No learnings source: pass a triage .md path or pr:<n>."
 - **Invalid config path:** when config resolution reports an invalid `config:`,
   `EXPECTATION_FIT_CONFIG_DIR` or legacy `INTENSE_CONFIG_DIR` path, write nothing. Reply with status `failed` and a
