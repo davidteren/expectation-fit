@@ -1,0 +1,25 @@
+plugins/expectation-fit/skills/fit-from-pr-learnings/SKILL.md
+  s_139c48e2134bb7::t_c1b4f1608824ed 142-143
+plugins/expectation-fit/skills/fit-from-pr-learnings/evals.json
+  s_139c48e2134bb7::t_0f3344d02f33ff 33-37
+plugins/expectation-fit/skills/fit-setup/SKILL.md
+  s_139c48e2134bb7::t_26231657be5f1b 52
+plugins/expectation-fit/skills/fit-setup/evals.json
+  s_139c48e2134bb7::t_c338d618b1e21d 58-67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cb134d92cc74665934d5fc40da038b67744d02d5",
+  "prompts": {},
+  "sessions": {
+    "s_139c48e2134bb7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "089293b8-bf7f-4fca-9b58-2370b9ff2a96",
+        "model": "unknown"
+      },
+      "human_author": "davidteren <drteren@gmail.com>"
+    }
+  }
+}
