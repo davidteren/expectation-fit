@@ -20,6 +20,21 @@
       "id": 4,
       "prompt": "fit-from-pr-learnings pr:12 (no review threads; report_dir holds two fit-review reports whose Branch is the PR head branch. The older one declines one finding. The newer one declines a finding for a reason beyond the PR, declines one for a PR-bound reason, and fixes one listed under Tensions)",
       "expected_output": "Reads only the newer report and names it in the Header. Proposes one conventions.notes line from the reason that holds beyond the PR, citing the report path and finding number. Adds nothing for the PR-bound decline, the fixed finding or the older report. Asks merge / replace notes / skip, and writes nothing to .expectation-fit/ without confirmation."
+    },
+    {
+      "id": 5,
+      "prompt": "fit-from-pr-learnings mode:agent pr:42 (no .expectation-fit/ config anywhere)",
+      "expected_output": "Asks nothing and never creates a config folder. Replies with one raw JSON object: status skipped, reason says to run fit-setup mode:agent first."
+    },
+    {
+      "id": 6,
+      "prompt": "fit-from-pr-learnings mode:agent docs/triage.md (config exists; triage has a P1 guardrail, a pattern ban and a product question)",
+      "expected_output": "Asks nothing. Merges the guardrail as a conventions.notes line; never replaces notes or an existing severity_overrides value. Does not write patterns.blocked: the ban and the product question become deferred lines. Replies with the config-writer JSON, context learnings, mode null."
+    },
+    {
+      "id": 7,
+      "prompt": "fit-from-pr-learnings mode:agent stack (config exists, no triage path and no pr:)",
+      "expected_output": "Asks nothing and writes nothing. Replies with status failed and the reason asking for a triage .md path or pr:<n>."
     }
   ]
 }

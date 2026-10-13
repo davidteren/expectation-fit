@@ -137,7 +137,7 @@ monotonic across the whole report.
    | `clean` | Ran. The report shows no finding from this lens. | No |
    | `ok` | Ran. The report shows N findings from this lens, applied fixes included. Coverage writes "ok, N findings". | No. The findings set the verdict. |
    | `failed` | Non-JSON return, missing `$RUN/{lens}.json` (plan set: `$RUN/{lens}-<doc-slug>.json`, where `<doc-slug>` comes from the repo-relative document path and is unique in the set), missing required `scores`, a returned `lens` that differs from the dispatched lens, or a harness error (after the optional one re-dispatch). | Yes |
-   | `skipped` | Selected, but it could not analyze. Example: no architecture pack (a `SKIPPED:` observation). | Yes |
+   | `skipped` | Selected, but it could not analyze. Example: no architecture pack (a `SKIPPED:` observation). In the Grok workflow, also a partial read (`read_complete` not true). | Yes |
    | `not_selected` | Auto-selection, config or a `lenses:<list>` token did not pick it. The Header gives the reason. | No |
 
    Ready here means Ready (review), Healthy (audit) and Ready to implement (plan).
@@ -405,3 +405,71 @@ Verdict words, by context. Use only these words:
 | audit | `Healthy`, `Gaps to fix first` |
 
 Never use a verdict word that a caller suggests, such as "Ready to merge".
+
+## mode:agent for setup, learnings and plan-assist
+
+`fit-setup`, `fit-from-pr-learnings` and `fit-plan-assist` produce no findings report, so
+they use smaller JSON replies. Three rules carry over from the section above: the reply
+is one raw JSON object and nothing else, the run asks no questions, and `status` and
+`reason` follow the same field rules (`complete`, `failed` or `skipped`, with `reason`
+`null` on `complete`). `out:`, where a skill takes it, writes the same object to that
+path, and `artifact_path` names it. Every key in a shape is always present: on a
+`failed` or `skipped` reply, `deferred` may name what a human should do next, the other
+lists are empty, and `mode`, `config_dir` and `artifact_path` may be `null`. The other rules do not carry over. The two config writers do
+change `.expectation-fit/` (that is their job), and these shapes carry no provenance
+keys.
+
+`fit-setup` and `fit-from-pr-learnings` (config writers):
+
+```json
+{
+  "status": "complete",
+  "reason": null,
+  "context": "setup",
+  "mode": "fresh",
+  "artifact_path": null,
+  "config_dir": "/abs/path/.expectation-fit",
+  "files_written": ["/abs/path/.expectation-fit/ways-of-working.yaml"],
+  "files_skipped": [],
+  "deferred": ["patterns.preferred: interactor or service_object needs a human choice"]
+}
+```
+
+- `context` is `setup` or `learnings`. `mode` is `fresh`, `upgrade` or `calibrate` in
+  setup, and `null` in learnings.
+- `artifact_path` is the absolute path of the `out:` file, or `null`. Setup takes no
+  `out:`, so it is always `null` there.
+- `config_dir` is the absolute `.expectation-fit/` path, or `null` when none exists.
+- `files_written` lists every config file the run created or changed (the `out:` file
+  is `artifact_path` only). `files_skipped` lists
+  every file the run would have changed but did not, as `{ "path", "why" }`.
+- `deferred` lists each decision the interactive run would have asked about, in one
+  line, so a human can make it later. Empty when none.
+
+**Write target (both config writers).** A mode:agent run writes only into one folder:
+
+1. **Explicit config:** `config:`, `EXPECTATION_FIT_CONFIG_DIR` or the legacy
+   `INTENSE_CONFIG_DIR` resolves to a valid folder. Write there; the caller named it.
+2. **Walk-up config:** write there only when it sits inside the cwd's git root (outside
+   git, under the cwd). Otherwise write nothing: status `skipped`, reason "The config
+   that applies is outside this repo: pass config:<path> to target it.", and a
+   `deferred` line that names its path.
+3. **No config:** only `fit-setup` creates one, at the cwd's git root (outside git, the
+   cwd), and only for a single-repo layout (see its "0b, 1 multi-repo" row).
+
+`fit-plan-assist`:
+
+```json
+{
+  "status": "complete",
+  "reason": null,
+  "context": "plan-assist",
+  "checklist": [{ "lens": "simplicity", "item": "Defer the provider interface until a second provider exists." }],
+  "tensions": ["DWIM forgiving input vs least-astonishment for the date filter."]
+}
+```
+
+- `lens` is a short lens id: `predictability`, `convention`, `simplicity` or `experience`
+  (architecture is code-only and never appears here). `item` is one decision to make now, as in the
+  markdown checklist.
+- `tensions` holds one line per trade-off. Empty when none.

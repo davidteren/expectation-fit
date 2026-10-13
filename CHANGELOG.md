@@ -14,6 +14,21 @@ for the design see **PLAN.md**.
   `main` now points here. Issue #63 moved here as #1. If you added the marketplace from the
   old repo, remove `expectation-fit-marketplace` and add it again from the new repo.
 
+### Added
+- `fit-setup`, `fit-from-pr-learnings` and `fit-plan-assist` take `mode:agent` (#1). The
+  two config skills ask no questions, use the documented defaults, only add files and keys
+  (never replace a value), and list each skipped decision in `deferred`. Both write
+  only to an explicit `config:` folder or a config inside the current repo, and
+  otherwise stop with status `skipped`. They also stop on a legacy-only `.intense/`
+  config. Multi-repo setup stays interactive: `fit-setup mode:agent` skips it. `fit-plan-assist` returns its checklist and
+  tensions as JSON. The shapes are in report-template.md, "mode:agent for setup, learnings
+  and plan-assist".
+
+### Fixed
+- The Grok workflow no longer passes a partial read (#1). Each lens returns
+  `read_complete`; when it is not true, the lens is `skipped`, which blocks Ready, as in
+  the Claude skills.
+
 ## [0.9.0] - 2026-10-09
 
 ### Breaking

@@ -1,7 +1,7 @@
 ---
 name: fit-from-pr-learnings
 description: "Turn PR review comments, a triage markdown export, or open PR URLs into Expectation Fit config improvements — conventions.notes/sources, severity_overrides, optional pattern policy, and a short findings brief. Use when the user points at a PR, a PR stack triage doc, or wants to mine review learnings into .expectation-fit/."
-argument-hint: "[path/to/triage.md | pr:<url-or-number> | stack] [out:<dir>]"
+argument-hint: "[mode:agent] [path/to/triage.md | pr:<url-or-number> | stack] [out:<dir>]"
 ---
 
 # Expectation Fit — From PR learnings
@@ -31,6 +31,7 @@ YAML without confirmation.
 | `stack` / blank with multi-repo cwd | Prefer nearest `.expectation-fit/` walk-up; detect BE/FE siblings. |
 | `config:<path>` | Override project config dir (same rules as config-resolution). |
 | `out:<dir>` | Write the summary report under this dir (default: resolved `artifacts.report_dir`). |
+| `mode:agent` | Ask nothing; reply with JSON. See "mode:agent" below. |
 
 ## Procedure
 
@@ -133,6 +134,41 @@ Write a short markdown report:
 After a write, end with the output of `git -C "<resolved .expectation-fit dir>" status -sb .`
 and this line: "Commit these config files in their own commit, not inside feature work."
 This skill still never commits. Outside a git repo, skip the status line.
+
+## mode:agent
+
+For callers that cannot answer questions. Every step runs as above, with these changes:
+
+- **No learnings input:** with no triage path and no `pr:` (a `stack` token or multi-repo
+  cwd only picks the config folder), reply with
+  status `failed` and reason "No learnings source: pass a triage .md path or pr:<n>."
+- **Invalid config path:** when config resolution reports an invalid `config:`,
+  `EXPECTATION_FIT_CONFIG_DIR` or legacy `INTENSE_CONFIG_DIR` path, write nothing. Reply with status `failed` and a
+  reason that names the path.
+- **Write target:** follow "Write target" in "mode:agent for setup, learnings and
+  plan-assist" in `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`.
+- **Unreadable source:** a triage path that does not exist or a `gh` call that fails
+  gives status `failed`, with the error in `reason`.
+- **No config found (Step 1.2):** do not create one. Reply with status `skipped` and
+  reason "No .expectation-fit/ config found; run fit-setup mode:agent first."
+- **Legacy config:** when the resolved config is a legacy `.intense/`, write nothing.
+  Reply with status `skipped` and reason "Legacy .intense/ config needs an interactive
+  migration: run /fit-setup upgrade."
+- **Step 4:** use **merge**. Never replace notes. When a `severity_overrides` key is
+  already set to a different value, keep the existing value and add one `deferred` line.
+  Do not write `patterns.blocked`: each proposed ban becomes a `deferred` line.
+- **Step 5 and Gaps:** threshold ideas from Step 3, the calibrate recommendation and each Gaps item (a learning that
+  needs a product or security call) become one `deferred` line each.
+- **Summary report (Step 4, item 5):** skip it. As in every mode:agent run, `out:` writes
+  the JSON reply instead. Resolve `REPORT_PATH` with the canonical report-path block in
+  `${CLAUDE_PLUGIN_ROOT}/references/config-resolution.md`, with `SKILL_SLUG`
+  `from-pr-learnings`, an empty `SCOPE`, `EXT` `json` and `OUT_ARG` from `out:`. Run the
+  whole block except the run-scratch lines (`RUN_ID`, `RUN`, and the `mkdir` and
+  `.gitignore` for `$RUN`); this skill has no run scratch.
+- **Step 6:** skip the markdown report and the git status line. Reply with one raw JSON
+  object in the config-writer shape from "mode:agent for setup, learnings and
+  plan-assist" in `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`, with `context`
+  `learnings` and `mode` `null`.
 
 ## Quality bar
 

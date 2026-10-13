@@ -424,7 +424,7 @@ parallel runs name reports the same way.
 # CANONICAL_ORCHESTRATOR_PATHS — single source of truth (do not duplicate in skills)
 STAMP=$(date +%Y%m%d-%H%M%S)
 RUN_ID="${STAMP}-$(head -c4 /dev/urandom | od -An -tx1 | tr -d ' ')"
-# skill slug: audit | review | validate-plan
+# skill slug: audit | review | validate-plan | from-pr-learnings (mode:agent out: only, no run scratch)
 # SCOPE: raw branch / PR / plan path / target, or empty
 # EXT=md normally; json when mode:agent
 # Slug rule: take the basename; drop the extension only for an existing file; lowercase;

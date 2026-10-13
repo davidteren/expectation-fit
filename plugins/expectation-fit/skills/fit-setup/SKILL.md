@@ -1,7 +1,7 @@
 ---
 name: fit-setup
 description: "Setup and upgrade Expectation Fit project config in .expectation-fit/ — full wizard for greenfield monoliths and multi-repo workspaces (placement, conventions.auto roots, severity_align, pattern preference), plus upgrade that merges missing capabilities without clobbering notes. Optional calibrate measures repo distributions and proposes thresholds. Stack-aware; idempotent. Use to set up, extend, or upgrade a project's .expectation-fit/ config."
-argument-hint: "[all | ways | patterns | thresholds | fresh | upgrade | multi-repo | roots:a,b | calibrate [p90|p75|…]] (blank = wizard)"
+argument-hint: "[mode:agent] [all | ways | patterns | thresholds | fresh | upgrade | multi-repo | roots:a,b | calibrate [p90|p75|…]] (blank = wizard)"
 ---
 
 # Expectation Fit — Init / setup / upgrade
@@ -30,6 +30,39 @@ If presenting menus interactively in Claude Code, **pre-load `AskUserQuestion`**
 (deferred tool): call `ToolSearch` with `select:AskUserQuestion` once before the first
 menu. If the harness has no blocking-question tool (ToolSearch returns nothing / call
 fails), fall back to a numbered list and wait for the user's reply — never silently pick.
+In `mode:agent`, ask nothing and load no question tool: see "mode:agent" below.
+
+## mode:agent
+
+For callers that cannot answer questions. Remove the `mode:agent` token from
+`$ARGUMENTS` before Step 0a, so `mode:agent calibrate` still starts calibrate. The
+procedure runs as written, but every question takes the answer below, and where a row
+differs from a non-interactive rule in a step, the row wins. Anything a run would have asked a human to decide goes
+into `deferred` as one line.
+
+A mode:agent run **adds**: it creates missing files and missing keys from the
+defaults. It never replaces or removes a value that is already set. The diff preview
+and the "confirm once" gates (Step 3, U4) count as yes for those additions only. Every
+change that U4 marks "only on confirm", "without a yes" or "explicit overwrite
+confirm" becomes a `deferred` line instead.
+
+| Step | Answer in mode:agent |
+|------|----------------------|
+| Write target | Follow "Write target" in "mode:agent for setup, learnings and plan-assist" in `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`. Never create a second `.expectation-fit/`. |
+| 0a mode menu | A config in the write target always means **upgrade**, whatever the tokens (`fresh`, file, `multi-repo`, `roots:`); file tokens limit the files. No config: **fresh**. `calibrate` writes nothing, so the write target does not limit it. |
+| Invalid config path | Config resolution reports an invalid `config:`, `EXPECTATION_FIT_CONFIG_DIR` or legacy `INTENSE_CONFIG_DIR` path: write nothing. Reply with status `failed` and a reason that names the path. |
+| U1.2 no config | An explicit `upgrade` with no config: write nothing, status `skipped`, reason "No config to upgrade: run fit-setup mode:agent." |
+| 0b, 1 multi-repo | Multi-repo here means two or more child folders of the write root that have their own `.git`. Sibling clones next to the repo do not count, and a single-git monorepo is monolith. (A sub-repo under a workspace that already has a config is caught by Write target rule 2.) A fresh run with a `multi-repo` or `roots:` token, or in a multi-repo layout: write nothing. Reply with status `skipped`, reason "Multi-repo setup needs an interactive run: run /fit-setup from the workspace root.", and a `deferred` line that names the workspace path. Otherwise the profile is monolith. In an upgrade, a `roots:` token fills empty `conventions.auto.roots` only with folders that exist under the project base (`${CLAUDE_PLUGIN_ROOT}/references/config-resolution.md`, "Base directory"); other roots become `deferred` lines. |
+| 1 legacy `.intense/` only | The resolved config is a legacy `.intense/` and no `.expectation-fit/` holds yaml: this row wins over 0a. Write nothing, because new `.expectation-fit/` yaml would hide the legacy config. Reply with status `skipped`, reason "Legacy .intense/ config needs an interactive migration: run /fit-setup upgrade.", and a `deferred` line that names the folder. |
+| 1 both folders hold yaml | Run the upgrade on `.expectation-fit/` (it is the resolved config). Add a `deferred` line for the legacy merge and removal. |
+| 2 file menu | All files (the documented non-interactive default). |
+| 2b questions | The table defaults. Rows marked **ask** stay unset, with a `deferred` line. Do not offer calibrate. |
+| 2c calibrate | Measure and propose, but write nothing. Put each proposed value in `deferred`. No stack with an Arch pack: status `skipped`, reason "No stack with an architecture pack to calibrate." |
+| 3 existing file | Skip it and list it in `files_skipped`. |
+| U3 picks | The stated default: add the safe missing blocks and missing files. |
+| U4 confirms | Additions only, as above. When a legacy top-level `report_dir` is set, do not add `artifacts.report_dir`, because it would move where reports go. Carrying a legacy `report_dir` over, offering new defaults for old values and replacing a copied title each become a `deferred` line. |
+| 4 gitignore | Do not edit `.gitignore`. When the active run-scratch path is not ignored, add a `deferred` line that names it. |
+| 5 report | Reply with one raw JSON object in the config-writer shape from "mode:agent for setup, learnings and plan-assist" in `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`, with `context` `setup`. Print no markdown and no git status. |
 
 ---
 
@@ -521,6 +554,7 @@ never commits or pushes.
 | `/fit-setup calibrate p75` | Calibrate at p75 |
 | `/fit-setup multi-repo` | Fresh with multi-repo profile default |
 | `/fit-setup roots:backend,frontend` | Seed `conventions.auto.roots` (with or without multi-repo) |
+| `/fit-setup mode:agent` | No questions; documented defaults; JSON reply (combines with the tokens above) |
 
 ---
 

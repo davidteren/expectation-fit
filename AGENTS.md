@@ -145,6 +145,9 @@ changes the diff range). Path resolution:
 Run-id format is identical across the three: `$(date +%Y%m%d-%H%M%S)-<4-byte hex>` —
 keep them in sync if you change one.
 
+`fit-setup`, `fit-from-pr-learnings` and `fit-plan-assist` also take `mode:agent`, with
+the smaller JSON shapes in `references/report-template.md`.
+
 ---
 
 ## The five lenses (`agents/`)

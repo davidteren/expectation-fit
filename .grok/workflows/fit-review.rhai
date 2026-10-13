@@ -42,8 +42,9 @@ let config_schema = #{
 
 let lens_schema = #{
     "type": "object",
-    "required": ["lens", "findings", "observations"],
+    "required": ["lens", "read_complete", "findings", "observations"],
     "properties": #{
+        "read_complete": #{ "type": "boolean" },
         "lens": #{
             "type": "string",
             "enum": ["predictability", "convention", "simplicity", "experience", "architecture"],
@@ -298,6 +299,7 @@ fn lens_prompt(target, plugin_root, lens_id, agent_file, docs, hunts, intent_tex
     p += "If you cannot read the target, start an observation with failed: and return no findings.\n";
     p += "An empty findings list is valid only after you have inspected the target.\n";
     p += "Your first observation is READ: <what you read> of <what you were given>. Page a long diff to its last line, tests included. Name any part you did not read.\n";
+    p += "Set read_complete to true only when you read everything you were given. A partial read sets it false, and the lens is reported as skipped.\n";
     p += "At most 8 findings. Name the broken expectation. Concrete suggested_fix.\n";
     p += "Skip formatter/linter nits. Flag principle tensions instead of picking a side.\n";
     p += "</output-contract>\n";
@@ -564,6 +566,11 @@ for lens in catalog {
                         if ol.len() >= 7 && ol.sub_string(0, 7) == "failed:" { lens_status = "failed"; }
                     }
                 }
+            }
+            // A partial read blocks Ready, the same as in the Claude skills.
+            if lens_status == "clean" && r.output.read_complete != true {
+                lens_status = "skipped";
+                observations.push("Lens " + lens.id + " did not read the whole target (read_complete is not true).");
             }
             statuses.push(#{ lens: lens.id, status: lens_status });
             write_scratch_file(run_slug + "-" + lens.id + ".json", json_encode(r.output));
@@ -835,7 +842,7 @@ merge_prompt += verdict;
 merge_prompt += "\nReturn the markdown in the report field only. The orchestrator will store it.\n";
 merge_prompt += "The confidence gate already ran. Use the confirmed list as-is.\n";
 merge_prompt += "Do not invent extra findings. List every confirmed title. Do not drop a confirmed finding.\n";
-merge_prompt += "Do not claim Ready or all-clear if any lens status is failed or skipped (selected but declined). Status not_selected means the lens was never run; that is not a failure.\n";
+merge_prompt += "Do not claim Ready or all-clear if any lens status is failed or skipped (selected but declined or not fully read). Status not_selected means the lens was never run; that is not a failure.\n";
 merge_prompt += "Render the all-clear line from the report template only when the verdict is Ready.\n";
 merge_prompt += "When verifier_reason or verifier_evidence corrects the lines or the fix, show it as a verifier note on that finding.\n";
 merge_prompt += "No apply section. No time estimates. No praise.\n";
