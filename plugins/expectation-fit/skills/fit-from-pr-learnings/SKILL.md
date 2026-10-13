@@ -139,6 +139,9 @@ This skill still never commits. Outside a git repo, skip the status line.
 
 For callers that cannot answer questions. Every step runs as above, with these changes:
 
+- **Invalid config path:** when config resolution reports an invalid `config:` or
+  `EXPECTATION_FIT_CONFIG_DIR` path, write nothing. Reply with status `failed` and a
+  reason that names the path.
 - **No config found (Step 1.2):** do not create one. Reply with status `skipped` and
   reason "No .expectation-fit/ config found; run fit-setup mode:agent first."
 - **Legacy config:** when the resolved config is a legacy `.intense/`, write nothing.
@@ -147,7 +150,7 @@ For callers that cannot answer questions. Every step runs as above, with these c
 - **Step 4:** use **merge**. Never replace notes. When a `severity_overrides` key is
   already set to a different value, keep the existing value and add one `deferred` line.
   Do not write `patterns.blocked`: each proposed ban becomes a `deferred` line.
-- **Step 5 and Gaps:** the calibrate recommendation and each Gaps item (a learning that
+- **Step 5 and Gaps:** threshold ideas from Step 3, the calibrate recommendation and each Gaps item (a learning that
   needs a product or security call) become one `deferred` line each.
 - **Summary report (Step 4, item 5):** skip it. As in every mode:agent run, `out:` writes
   the JSON reply instead. Resolve `REPORT_PATH` with the canonical report-path block in
