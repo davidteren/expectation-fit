@@ -446,6 +446,17 @@ keys.
 - `deferred` lists each decision the interactive run would have asked about, in one
   line, so a human can make it later. Empty when none.
 
+**Write target (both config writers).** A mode:agent run writes only into one folder:
+
+1. **Explicit config:** `config:` or `EXPECTATION_FIT_CONFIG_DIR` resolves to a valid
+   folder. Write there; the caller named it.
+2. **Walk-up config:** write there only when it sits inside the cwd's git root (outside
+   git, under the cwd). Otherwise write nothing: status `skipped`, reason "The config
+   that applies is outside this repo: pass config:<path> to target it.", and a
+   `deferred` line that names its path.
+3. **No config:** only `fit-setup` creates one, at the cwd's git root (outside git, the
+   cwd), and only for a single-repo layout (see its "Multi-repo" row).
+
 `fit-plan-assist`:
 
 ```json

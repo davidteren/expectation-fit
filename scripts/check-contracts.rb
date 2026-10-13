@@ -781,6 +781,19 @@ end
     bad "#{skill}: needs a \"## mode:agent\" section that points at the report-template shape"
   end
 end
+# Both config writers share one write-target rule, defined once in the template.
+if small_section.include?("**Write target (both config writers).**")
+  %w[fit-setup fit-from-pr-learnings].each do |skill|
+    if read("skills/#{skill}/SKILL.md").gsub(/\s+/, " ").include?('Follow "Write target"') ||
+       read("skills/#{skill}/SKILL.md").gsub(/\s+/, " ").include?('follow "Write target"')
+      ok "#{skill}: mode:agent uses the shared Write target rule"
+    else
+      bad "#{skill}: mode:agent must follow the shared \"Write target\" rule in report-template.md"
+    end
+  end
+else
+  bad "report-template.md: missing the shared Write target rule for config writers"
+end
 
 # ---------------------------------------------------------------------------
 section "12. Skill evals (behavioral contracts, incl. refusal cases)"

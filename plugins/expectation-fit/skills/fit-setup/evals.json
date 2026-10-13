@@ -64,7 +64,7 @@
     {
       "id": 13,
       "prompt": "fit-setup mode:agent multi-repo (run from a sub-repo; the workspace root already holds the shared .expectation-fit/)",
-      "expected_output": "Never writes the workspace config from a sub-repo and never creates a config in the sub-repo. Replies with status skipped and a deferred line naming the workspace config path; running from the workspace root or passing config:<path> targets it."
+      "expected_output": "Never writes the workspace config from a sub-repo and never creates a config in the sub-repo. Replies with status skipped and a deferred line naming the workspace config path; passing config:<path> targets it."
     }
   ]
 }

@@ -145,11 +145,8 @@ For callers that cannot answer questions. Every step runs as above, with these c
 - **Invalid config path:** when config resolution reports an invalid `config:`,
   `EXPECTATION_FIT_CONFIG_DIR` or legacy `INTENSE_CONFIG_DIR` path, write nothing. Reply with status `failed` and a
   reason that names the path.
-- **Config outside the repo:** without an explicit `config:`, write only to a config
-  inside the cwd's git root (outside git, the cwd). When the resolved config sits
-  elsewhere, write nothing. Reply with status `skipped`, reason "The config that applies
-  is outside this repo: pass config:<path> to target it.", and a `deferred` line that
-  names its path.
+- **Write target:** follow "Write target" in "mode:agent for setup, learnings and
+  plan-assist" in `${CLAUDE_PLUGIN_ROOT}/references/report-template.md`.
 - **Unreadable source:** a triage path that does not exist or a `gh` call that fails
   gives status `failed`, with the error in `reason`.
 - **No config found (Step 1.2):** do not create one. Reply with status `skipped` and
