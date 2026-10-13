@@ -7,7 +7,7 @@ All notable changes to the **expectation-fit** plugin (named intent-engineering 
 
 This file ships inside the installable plugin and tracks the latest release.
 The **full dated history** lives in the development repo:
-<https://github.com/davidteren/intent-engineering/blob/main/CHANGELOG.md>.
+<https://github.com/davidteren/expectation-fit/blob/main/CHANGELOG.md>.
 
 ## [0.9.0] - 2026-10-09
 
@@ -57,7 +57,7 @@ Workspace-aware setup and CI-aligned conventions.
 ### Contract suite
 141 checks across 12 sections.
 
-See the [full changelog](https://github.com/davidteren/intent-engineering/blob/main/CHANGELOG.md)
+See the [full changelog](https://github.com/davidteren/expectation-fit/blob/main/CHANGELOG.md)
 for complete history (0.1.0 → 0.8.0).
 
 ## [0.7.0] — 2026-07-29

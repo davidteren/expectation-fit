@@ -190,6 +190,11 @@ To switch an existing install:
 
 On success, `/fit-review` is listed and `/ie-review` is gone.
 
+Then run `/fit-setup upgrade` to move the yaml config files from `.intense/` into
+`.expectation-fit/`. Old run and report folders stay in `.intense/` for you to delete.
+
+### If you installed 0.9.0 from the old repo
+
 The source moved to `davidteren/expectation-fit` after the 0.9.0 release. If you added
 the marketplace from `davidteren/intent-engineering`, remove it and add it again from
 the new repo:
@@ -198,10 +203,8 @@ the new repo:
 /plugin marketplace remove expectation-fit-marketplace
 /plugin marketplace add https://github.com/davidteren/expectation-fit
 /plugin install expectation-fit@expectation-fit-marketplace
+/reload-plugins
 ```
-
-Then run `/fit-setup upgrade` to move the yaml config files from `.intense/` into
-`.expectation-fit/`. Old run and report folders stay in `.intense/` for you to delete.
 
 ## Grok (optional, source repo only)
 

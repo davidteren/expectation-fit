@@ -6,7 +6,7 @@
 
 [![contracts](https://github.com/davidteren/expectation-fit/actions/workflows/contracts.yml/badge.svg)](https://github.com/davidteren/expectation-fit/actions/workflows/contracts.yml)
 [![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Listed on ClaudePluginHub](https://www.claudepluginhub.com/badge/davidteren-intent-engineering-plugins-intent-engineering)](https://www.claudepluginhub.com/plugins/davidteren-intent-engineering-plugins-intent-engineering?ref=badge)
+[![Listed on ClaudePluginHub](https://www.claudepluginhub.com/badge/davidteren-expectation-fit-plugins-expectation-fit)](https://www.claudepluginhub.com/plugins/davidteren-expectation-fit-plugins-expectation-fit?ref=badge)
 
 **Site:** [davidteren.github.io/expectation-fit](https://davidteren.github.io/expectation-fit/)
 
