@@ -7,6 +7,13 @@ for the design see **PLAN.md**.
 
 ## [Unreleased]
 
+### Changed
+- The source moved to a new repo, https://github.com/davidteren/expectation-fit, and the
+  site to https://davidteren.github.io/expectation-fit/. The old repo,
+  `davidteren/intent-engineering`, keeps its history, issues #1 to #62 and PR #64, and its
+  `main` now points here. Issue #63 moved here as #1. If you added the marketplace from the
+  old repo, remove `expectation-fit-marketplace` and add it again from the new repo.
+
 ## [0.9.0] - 2026-10-09
 
 ### Breaking

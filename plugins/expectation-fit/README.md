@@ -181,7 +181,7 @@ this table:
 To switch an existing install:
 
 ```
-/plugin marketplace add https://github.com/davidteren/intent-engineering
+/plugin marketplace add https://github.com/davidteren/expectation-fit
 /plugin install expectation-fit@expectation-fit-marketplace
 /plugin uninstall intent-engineering@intent-engineering-marketplace
 /plugin marketplace remove intent-engineering-marketplace
@@ -189,6 +189,16 @@ To switch an existing install:
 ```
 
 On success, `/fit-review` is listed and `/ie-review` is gone.
+
+The source moved to `davidteren/expectation-fit` after the 0.9.0 release. If you added
+the marketplace from `davidteren/intent-engineering`, remove it and add it again from
+the new repo:
+
+```
+/plugin marketplace remove expectation-fit-marketplace
+/plugin marketplace add https://github.com/davidteren/expectation-fit
+/plugin install expectation-fit@expectation-fit-marketplace
+```
 
 Then run `/fit-setup upgrade` to move the yaml config files from `.intense/` into
 `.expectation-fit/`. Old run and report folders stay in `.intense/` for you to delete.

@@ -5,19 +5,19 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>expectation-fit — software that behaves the way you expect</title>
 <meta name="description" content="A Claude Code plugin with five review lenses. Each finding names the broken expectation and proposes a concrete fix." />
-<link rel="canonical" href="https://davidteren.github.io/intent-engineering/" />
+<link rel="canonical" href="https://davidteren.github.io/expectation-fit/" />
 <meta property="og:title" content="expectation-fit" />
 <meta property="og:description" content="Five review lenses that name the surprise, score it, and propose a fix. Planning, review, and audit." />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://davidteren.github.io/intent-engineering/" />
-<meta property="og:image" content="https://davidteren.github.io/intent-engineering/og-finding.png" />
+<meta property="og:url" content="https://davidteren.github.io/expectation-fit/" />
+<meta property="og:image" content="https://davidteren.github.io/expectation-fit/og-finding.png" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
 <meta property="og:image:alt" content="A Ruby method named fetch_total highlighted on the Cache.write line, with a P1 finding that a fetch should not write." />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="expectation-fit" />
 <meta name="twitter:description" content="Five review lenses that name the surprise, score it, and propose a fix." />
-<meta name="twitter:image" content="https://davidteren.github.io/intent-engineering/og-finding.png" />
+<meta name="twitter:image" content="https://davidteren.github.io/expectation-fit/og-finding.png" />
 <meta name="theme-color" content="#f2f4f7" media="(prefers-color-scheme: light)" />
 <meta name="theme-color" content="#121820" media="(prefers-color-scheme: dark)" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23121820'/%3E%3Crect x='6' y='18' width='20' height='6' fill='%23e2a04a'/%3E%3C/svg%3E" />
@@ -56,13 +56,13 @@
           <a href="#skills">Skills</a>
           <a href="#how">How it works</a>
           <a href="reports.html">Reports</a>
-          <a href="https://github.com/davidteren/intent-engineering">GitHub</a>
+          <a href="https://github.com/davidteren/expectation-fit">GitHub</a>
         </div>
       </details>
       <button class="icon-btn" type="button" data-theme-toggle aria-label="Switch theme" aria-pressed="false">
         <svg viewBox="0 0 16 16" aria-hidden="true"><path fill="currentColor" d="M8 1.5a.75.75 0 0 1 .75.75v1a.75.75 0 0 1-1.5 0v-1A.75.75 0 0 1 8 1.5Zm0 10.5a.75.75 0 0 1 .75.75v1a.75.75 0 0 1-1.5 0v-1A.75.75 0 0 1 8 12Zm6.5-4a.75.75 0 0 1-.75.75h-1a.75.75 0 0 1 0-1.5h1a.75.75 0 0 1 .75.75ZM3.25 8a.75.75 0 0 1-.75.75h-1a.75.75 0 0 1 0-1.5h1A.75.75 0 0 1 3.25 8Zm8.84-4.59a.75.75 0 0 1 0 1.06l-.7.7a.75.75 0 1 1-1.06-1.06l.7-.7a.75.75 0 0 1 1.06 0ZM5.67 10.83a.75.75 0 0 1 0 1.06l-.7.7a.75.75 0 1 1-1.06-1.06l.7-.7a.75.75 0 0 1 1.06 0Zm6.16 1.76a.75.75 0 0 1-1.06 0l-.7-.7a.75.75 0 0 1 1.06-1.06l.7.7a.75.75 0 0 1 0 1.06ZM5.67 5.17a.75.75 0 0 1-1.06 0l-.7-.7A.75.75 0 0 1 4.97 3.4l.7.7a.75.75 0 0 1 0 1.06ZM8 5.25A2.75 2.75 0 1 1 8 10.75 2.75 2.75 0 0 1 8 5.25Z"/></svg>
       </button>
-      <a class="gh" href="https://github.com/davidteren/intent-engineering">GitHub</a>
+      <a class="gh" href="https://github.com/davidteren/expectation-fit">GitHub</a>
     </div>
   </div>
 </header>
@@ -72,21 +72,21 @@
     <div class="wrap hero-grid">
       <div>
         <h1 id="hero-title">Code that behaves the way people already expect.</h1>
-        <p class="lede">Formerly intent-engineering (0.8.x). The <code>/ie-*</code> skills are now <code>/fit-*</code>. See <a href="https://github.com/davidteren/intent-engineering/blob/main/plugins/expectation-fit/README.md#upgrading-from-intent-engineering">Upgrading from intent-engineering</a>.</p>
+        <p class="lede">Formerly intent-engineering (0.8.x). The <code>/ie-*</code> skills are now <code>/fit-*</code>. See <a href="https://github.com/davidteren/expectation-fit/blob/main/plugins/expectation-fit/README.md#upgrading-from-intent-engineering">Upgrading from intent-engineering</a>.</p>
         <p class="lede"><b>expectation-fit</b> is a Claude Code plugin. Five review lenses name the surprise, score it, and propose a fix. Use it on a plan, a change, or a whole codebase.</p>
         <div class="cta">
           <a class="btn primary" href="#install">Install in Claude Code</a>
-          <a class="btn ghost" href="https://github.com/davidteren/intent-engineering/releases/latest">Latest release</a>
+          <a class="btn ghost" href="https://github.com/davidteren/expectation-fit/releases/latest">Latest release</a>
         </div>
 
         <div class="install" id="install">
           <div class="install-bar">
             <span>Claude Code</span>
-            <button type="button" class="copy" data-copy="/plugin marketplace add https://github.com/davidteren/intent-engineering
+            <button type="button" class="copy" data-copy="/plugin marketplace add https://github.com/davidteren/expectation-fit
 /plugin install expectation-fit">Copy</button>
           </div>
 <pre><span class="p"># in any repo, inside Claude Code</span>
-/plugin marketplace add <span class="c">https://github.com/davidteren/intent-engineering</span>
+/plugin marketplace add <span class="c">https://github.com/davidteren/expectation-fit</span>
 /plugin install <span class="c">expectation-fit</span></pre>
         </div>
         <p class="note">Then run <code>/fit-setup</code> if you want project policy. Defaults work with no config. MIT.</p>
@@ -287,7 +287,7 @@
             <li>Clone the repo. Open a Grok session in that directory.</li>
             <li>Run <code>/workflow fit-review {"target":"HEAD","base":"&lt;merge-base commit SHA&gt;"}</code>. Get the SHA with <code>git merge-base origin/main HEAD</code>.</li>
             <li>The script does not apply smell-first severity align or pattern policy, and it does not write <code>docs/</code>.</li>
-            <li>Details: <a href="https://github.com/davidteren/intent-engineering/blob/main/.grok/workflows/README.md">.grok/workflows/README.md</a></li>
+            <li>Details: <a href="https://github.com/davidteren/expectation-fit/blob/main/.grok/workflows/README.md">.grok/workflows/README.md</a></li>
           </ul>
         </div>
       </div>
@@ -358,11 +358,11 @@
         expectation-fit
       </a>
       <span class="sp"></span>
-      <a href="https://github.com/davidteren/intent-engineering">GitHub</a>
-      <a href="https://github.com/davidteren/intent-engineering/releases">Releases</a>
-      <a href="https://github.com/davidteren/intent-engineering/blob/main/README.md">Docs</a>
+      <a href="https://github.com/davidteren/expectation-fit">GitHub</a>
+      <a href="https://github.com/davidteren/expectation-fit/releases">Releases</a>
+      <a href="https://github.com/davidteren/expectation-fit/blob/main/README.md">Docs</a>
       <a href="reports.html">Reports</a>
-      <a href="https://github.com/davidteren/intent-engineering/blob/main/LICENSE">MIT</a>
+      <a href="https://github.com/davidteren/expectation-fit/blob/main/LICENSE">MIT</a>
       <p>The Principle of Least Astonishment, applied to itself. Optional Grok runtime lives in the source repo, not in the plugin package.</p>
     </div>
   </div>

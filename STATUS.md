@@ -4,13 +4,13 @@ Living status **snapshot** — the current state of the project, not a log. For 
 history of changes and decisions, see **[CHANGELOG.md](CHANGELOG.md)**. For the design and
 phase detail, **PLAN.md**. For how to work in this repo, **AGENTS.md**.
 
-**State:** ✅ feature-complete · 🚧 **v0.9.0** on `release/0.9.0`, pending release (latest published: v0.8.0) · **Updated:** 2026-10-09
+**State:** ✅ feature-complete · ✅ **v0.9.0** released · **Updated:** 2026-10-13
 
 ### Last session handoff
 
-1. **What this is:** The Expectation Fit plugin, on the 0.9.0 release branch.
-2. **What we finished:** The rename and 21 fixes are merged on `release/0.9.0`.
-3. **What you do next:** Merge the release PR, then tag v0.9.0, update installs, and check the live site at https://davidteren.github.io/intent-engineering/.
+1. **What this is:** The Expectation Fit plugin, now in its own repo, davidteren/expectation-fit.
+2. **What we finished:** The code, tags, releases and site moved here; the old repo points here.
+3. **What you do next:** Re-add the plugin from this repo, then pick up issue #1 (Grok partial reads, unattended fit-setup, JSON output).
 
 ---
 
@@ -38,16 +38,17 @@ Phoenix, React) + per-stack pattern catalogs.
 
 ## Published
 
-- **Repo (public, MIT):** https://github.com/davidteren/intent-engineering
-- **Landing site:** https://davidteren.github.io/intent-engineering/ (GitHub Pages, `docs/`)
-- **Release:** **`v0.9.0` pending release** (rename to expectation-fit plus 21 fixes, on
-  `release/0.9.0`). Latest published: `v0.8.0`.
+- **Repo (public, MIT):** https://github.com/davidteren/expectation-fit
+- **Landing site:** https://davidteren.github.io/expectation-fit/ (GitHub Pages, `docs/`)
+- **Release:** **`v0.9.0`** (rename to expectation-fit plus 21 fixes).
+- **Old repo:** https://github.com/davidteren/intent-engineering holds history up to v0.9.0,
+  issues #1 to #62 and PR #64. Its `main` is now a pointer to this repo.
 - **CI:** `contracts` workflow on every PR + `main`.
 
 Install:
 
 ```
-/plugin marketplace add https://github.com/davidteren/intent-engineering
+/plugin marketplace add https://github.com/davidteren/expectation-fit
 /plugin install expectation-fit
 ```
 
