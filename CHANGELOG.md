@@ -17,8 +17,9 @@ for the design see **PLAN.md**.
 ### Added
 - `fit-setup`, `fit-from-pr-learnings` and `fit-plan-assist` take `mode:agent` (#1). The
   two config skills ask no questions, use the documented defaults, only add files and keys
-  (never replace a value), and list each skipped decision in `deferred`. A legacy
-  `.intense/` config makes `fit-setup mode:agent` stop with status `skipped`. `fit-plan-assist` returns its checklist and
+  (never replace a value), and list each skipped decision in `deferred`. Both stop with
+  status `skipped` on a legacy-only `.intense/` config, and `fit-setup` also stops when it
+  sees a multi-repo layout without a `multi-repo` or `roots:` token. `fit-plan-assist` returns its checklist and
   tensions as JSON. The shapes are in report-template.md, "mode:agent for setup, learnings
   and plan-assist".
 

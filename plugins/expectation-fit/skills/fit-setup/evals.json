@@ -40,6 +40,21 @@
       "id": 8,
       "prompt": "fit-setup upgrade in a repo where .intense/ holds ways-of-working.yaml and patterns.yaml, and .expectation-fit/ holds only runs/",
       "expected_output": "Does not stop, because only .intense/ holds config yaml. After a yes, moves each .intense/*.yaml file into .expectation-fit/ one by one (git mv for tracked files). Never moves the whole folder, so there is no .expectation-fit/.intense/ nesting. runs/ stays where it is. Prints the git state of .expectation-fit/."
+    },
+    {
+      "id": 9,
+      "prompt": "fit-setup mode:agent (only a legacy .intense/ with yaml, no .expectation-fit/)",
+      "expected_output": "Asks nothing. Writes nothing and never moves .intense/. Replies with one raw JSON object: status skipped, reason names the interactive migration, files_written empty, one deferred line naming the .intense/ folder."
+    },
+    {
+      "id": 10,
+      "prompt": "fit-setup mode:agent (no config, single-repo monolith)",
+      "expected_output": "Asks nothing. Fresh mode at the git root with the documented defaults. Rows marked ask stay unset and appear in deferred. Never overwrites an existing file. Replies with one raw JSON object: status complete, context setup, mode fresh, files_written lists the created files. No markdown, no git status line."
+    },
+    {
+      "id": 11,
+      "prompt": "fit-setup mode:agent calibrate (no stack with an architecture pack)",
+      "expected_output": "Calibrate mode despite the leading mode:agent token. Asks nothing and writes nothing. Replies with status skipped and the reason that no stack has an architecture pack."
     }
   ]
 }

@@ -412,7 +412,8 @@ Never use a verdict word that a caller suggests, such as "Ready to merge".
 they use smaller JSON replies. Three rules carry over from the section above: the reply
 is one raw JSON object and nothing else, the run asks no questions, and `status` and
 `reason` follow the same field rules (`complete`, `failed` or `skipped`, with `reason`
-`null` on `complete`). The other rules do not carry over. The two config writers do
+`null` on `complete`). `out:`, where a skill takes it, writes the same object to that
+path, and `artifact_path` names it. The other rules do not carry over. The two config writers do
 change `.expectation-fit/` (that is their job), and these shapes carry no provenance
 keys.
 
@@ -434,8 +435,8 @@ keys.
 
 - `context` is `setup` or `learnings`. `mode` is `fresh`, `upgrade` or `calibrate` in
   setup, and `null` in learnings.
-- `artifact_path` is the absolute path of the learnings summary report, written only
-  with `out:`. It is always `null` in setup.
+- `artifact_path` is the absolute path of the `out:` file, or `null`. Setup takes no
+  `out:`, so it is always `null` there.
 - `config_dir` is the absolute `.expectation-fit/` path, or `null` when none exists.
 - `files_written` lists every file the run created or changed. `files_skipped` lists
   every file the run would have changed but did not, with the reason.

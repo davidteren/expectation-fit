@@ -34,8 +34,10 @@ In `mode:agent`, ask nothing and load no question tool: see "mode:agent" below.
 
 ## mode:agent
 
-For callers that cannot answer questions. The procedure runs as written, but every
-question takes the answer below. Anything a run would have asked a human to decide goes
+For callers that cannot answer questions. Remove the `mode:agent` token from
+`$ARGUMENTS` before Step 0a, so `mode:agent calibrate` still starts calibrate. The
+procedure runs as written, but every question takes the answer below, and where a row
+differs from a non-interactive rule in a step, the row wins. Anything a run would have asked a human to decide goes
 into `deferred` as one line.
 
 A mode:agent run **adds**: it creates missing files and missing keys from the
@@ -47,9 +49,11 @@ confirm" becomes a `deferred` line instead.
 | Step | Answer in mode:agent |
 |------|----------------------|
 | 0a mode menu | Config found: **upgrade**. None found: **fresh**. `calibrate` and other tokens still apply. |
-| 0b profile | The detected default, with no confirm. |
-| 1 placement | Write at the cwd's git root. Use the shared workspace root only with a `multi-repo` or `roots:` token. Without the token, when multi-repo signals exist, add a `deferred` line that names the workspace path. |
-| 1 legacy `.intense/` | When the resolved config is a legacy `.intense/`, or one with yaml sits at the write root: write nothing. Reply with status `skipped`, reason "Legacy .intense/ config needs an interactive migration: run /fit-setup upgrade.", and a `deferred` line that names the folder. Any new `.expectation-fit/` yaml would hide the legacy config. |
+| 0b profile | Monolith, unless a `multi-repo` or `roots:` token says otherwise. |
+| 1 placement, upgrade | Write into the resolved config folder. Never create a second `.expectation-fit/`. |
+| 1 placement, fresh | With a `multi-repo` or `roots:` token: the shared workspace root. Without one: the cwd's git root. When multi-repo signals exist and no token was passed, write nothing. Reply with status `skipped`, reason "Multi-repo layout detected: pass multi-repo or roots:a,b.", and a `deferred` line that names the workspace path. |
+| 1 legacy `.intense/` only | The resolved config is a legacy `.intense/` and no `.expectation-fit/` holds yaml: write nothing, because new `.expectation-fit/` yaml would hide the legacy config. Reply with status `skipped`, reason "Legacy .intense/ config needs an interactive migration: run /fit-setup upgrade.", and a `deferred` line that names the folder. |
+| 1 both folders hold yaml | Run the upgrade on `.expectation-fit/` (it is the resolved config). Add a `deferred` line for the legacy merge and removal. |
 | 2 file menu | All files (the documented non-interactive default). |
 | 2b questions | The table defaults. Rows marked **ask** stay unset, with a `deferred` line. Do not offer calibrate. |
 | 2c calibrate | Measure and propose, but write nothing. Put each proposed value in `deferred`. No stack with an Arch pack: status `skipped`, reason "No stack with an architecture pack to calibrate." |
